@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>API_Version__c</fullName>
+    <description>API version--used to build the endpoint.  they look like dates lately.  For example, &apos;2010-04-01&apos; is a version.</description>
+    <externalId>false</externalId>
+    <inlineHelpText>API version--used to build the endpoint.  they look like dates lately.  For example, &apos;2010-04-01&apos; is a version.</inlineHelpText>
+    <label>API Version</label>
+    <length>255</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>

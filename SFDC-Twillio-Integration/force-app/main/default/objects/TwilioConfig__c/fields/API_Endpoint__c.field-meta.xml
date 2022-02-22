@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>API_Endpoint__c</fullName>
+    <description>base endpoint for  the twilio API.  For example, https://api.twilio.com</description>
+    <externalId>false</externalId>
+    <inlineHelpText>base endpoint for  the twilio API.  For example, https://api.twilio.com</inlineHelpText>
+    <label>API Endpoint</label>
+    <length>255</length>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Text</type>
+    <unique>false</unique>
+</CustomField>
