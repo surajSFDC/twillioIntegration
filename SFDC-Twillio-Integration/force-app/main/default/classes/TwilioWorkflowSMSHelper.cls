@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Suraj Gupta
  * @group             : 
- * @last modified on  : 02-22-2022
+ * @last modified on  : 02-24-2022
  * @last modified by  : Suraj Gupta
  * Modifications Log
  * Ver   Date         Author        Modification
@@ -37,10 +37,8 @@ public with sharing class TwilioWorkflowSMSHelper {
 
 		system.debug(tm);
 		return tm;
-        
 	}
-    
-    
+
 	/**
 	* @description : Method to send SMS Async
 	* @author Suraj Gupta | 02-22-2022 
@@ -49,12 +47,17 @@ public with sharing class TwilioWorkflowSMSHelper {
 	@future(Callout=true)
 	public static void sendSMSLater(List<Id> recordIds){
 		//reconstitute the record List
-		List<Twilio_Message__c> tms = [select id, Recipient_Phone__c, Message_Body__c,
-		Status__c, Error_Comments__c from Twilio_Message__c where id in: recordIds];
+		List<Twilio_Message__c> tms = [SELECT Id, 
+											Recipient_Phone__c, 
+											Message_Body__c,
+											Status__c, 
+											Error_Comments__c 
+									FROM Twilio_Message__c 
+									WHERE Id IN: recordIds];
 
 		List<Twilio_Message__c> tmsToUpdate = new List<Twilio_Message__c>();
 
-		for (Twilio_Message__c tm:tms){			
+		for (Twilio_Message__c tm : tms){			
 
 			Twilio_Message__c tm2Update = sendSMSNow(tm);
 			system.debug(tm);
@@ -64,10 +67,6 @@ public with sharing class TwilioWorkflowSMSHelper {
 
 		update tmsToUpdate;
 	}
-    
-    
-    
-    
 	
 	/**
 	* @description : Method to receives records from trigger, batches them based on the callout limit, and passes those batches to the future call
@@ -81,9 +80,9 @@ public with sharing class TwilioWorkflowSMSHelper {
 		Integer Batchsize = Limits.GetLimitCallouts();
 		List<Id> RecordIdBatch = new List<Id>();
 
-		for (Twilio_Message__c tm:tms){
+		for (Twilio_Message__c tm : tms){
 			if (tm.Direction__c == 'Outbound'){
-				if (RecordIdBatch.size()<Batchsize){
+				if (RecordIdBatch.size() < Batchsize){
 					RecordIdBatch.add(tm.Id); //add to batch if there's room
 				} else {
 					//if a batch is done, add it to the List and get a new one ready
@@ -100,7 +99,7 @@ public with sharing class TwilioWorkflowSMSHelper {
 		RecordIdBatches.add(RecordIdBatch);
 
 		//loop through the batches and pass to our future callout method
-		for (List<Id> messageBatch:RecordIdBatches){
+		for (List<Id> messageBatch : RecordIdBatches){
 			sendSMSLater(messageBatch);
 		}
 	}
@@ -149,7 +148,7 @@ public with sharing class TwilioWorkflowSMSHelper {
 		TwilioConfig__c tc = TwilioConfig__c.getOrgDefaults();
 
 		string output = 
-			'To=' + '1' + tm.Recipient_Phone__c +
+			'To=' + '' + tm.Recipient_Phone__c +
 			'&Body=' + tm.Message_Body__c +
 			'&From=' + '1' + tc.Twilio_Number__c;
 		
@@ -178,7 +177,6 @@ public with sharing class TwilioWorkflowSMSHelper {
 			+ '/' +
 			'SMS/Messages.json'
 		;
-
 	}
 
 	/**
@@ -201,7 +199,6 @@ public with sharing class TwilioWorkflowSMSHelper {
 			+ '/' +
 			'SMS/Messages.json';
 	}
-
 
 	//JSON deserializing for good (status) and bad (message)
 	public class TwilioResponse {

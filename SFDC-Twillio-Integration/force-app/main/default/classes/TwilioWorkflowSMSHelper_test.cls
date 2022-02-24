@@ -2,7 +2,7 @@
  * @description       : 
  * @author            : Suraj Gupta
  * @group             : 
- * @last modified on  : 02-22-2022
+ * @last modified on  : 02-24-2022
  * @last modified by  : Suraj Gupta
  * Modifications Log
  * Ver   Date         Author        Modification
@@ -56,7 +56,7 @@ private class TwilioWorkflowSMSHelper_test {
 		tm = [select id, Status__c, Error_Comments__c from Twilio_Message__c where id=:tm.id];
 
 		system.assertEquals('Error', tm.Status__c);
-		system.assertEquals('The \'From\' number 1281607256 is not a valid phone number or shortcode.', tm.Error_Comments__c);
+		system.assertEquals('The From number 1281607256 is not a valid phone number or shortcode.', tm.Error_Comments__c);
 	}
 
 	@isTest static void testBulkTrigger() {
